@@ -1,0 +1,235 @@
+/* styles.css */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+/* .input-group {
+    margin-bottom: 20px;
+} */
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input, .input-group button, .input-group select {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0 20px 0;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.input-group input[type="file"] {
+    padding: 5px;
+}
+
+.input-group button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.input-group button:hover {
+    background-color: #0056b3;
+}
+
+/* Adjustments for file and directory inputs for better alignment */
+.input-group input[type="text"], .input-group input[type="file"], .input-group select {
+    padding: 10px;
+}
+
+/* New styles for voice, rate, and pitch controls row */
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.input-group {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.input-group:last-child {
+    margin-right: 0;
+}
+
+.collapsible {
+    background-color: #bbbbbb;
+    color: black;
+    cursor: pointer;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+  }
+  
+.active, .collapsible:hover {
+    background-color: #787878;
+}
+  
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.text-small {
+    font-size: small;
+}
+
+#progressBar {
+    width: 100%; /* Make the progress bar take the full width of its container */
+    height: 20px; /* Adjust the height as needed */
+    box-sizing: border-box;
+    display: block; /* Ensure it's a block element to take full width */
+    margin: 0 auto; /* Center the progress bar if its container is wider */
+    /* Add any desired appearance customizations */
+    border: 1px solid #ccc; /* Example border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f5f5f5; /* Light grey background */
+}
+
+/* Styling the inner part of the progress bar */
+#progressBar::-webkit-progress-bar {
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+#progressBar::-webkit-progress-value {
+    background-color: #4CAF50; /* Example green color */
+    border-radius: 5px;
+}
+
+#progressBar::-moz-progress-bar {
+    background-color: #4CAF50; /* Example green color */
+    border-radius: 5px;
+}
+
+.modal-header h2 {
+    text-align: center; /* Center the modal title */
+}
+
+.modal-body {
+    padding: 10px; /* Add padding as needed */
+}
+
+.modal-footer {
+    text-align: right; /* Align the button to the right */
+    padding: 10px; /* Add padding as needed */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 500px; /* Adjust based on your modal size */
+    width: 90%; /* Responsive width */
+    margin: auto; /* Ensure modal content is centered */
+}
+
+.modal-overlay {
+    position: fixed; /* Full-screen overlay */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Translucent background */
+    display: flex;
+    justify-content: center; /* Center the modal horizontally */
+    align-items: center; /* Center the modal vertically */
+    z-index: 1000; /* Ensure it's on top of other content */
+}
+
+.file-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.file-input:hover {
+    background-color: #e8e8e8;
+}
+
+.update-creds-button {
+    padding: 10px 15px;
+    margin-top: 5px; /* Adjust as needed */
+    border: 1px solid #007bff;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    float: right; /* Align button to the right */
+}
+
+.update-creds-button:hover {
+    background-color: #0056b3;
+}
+
+/* Styles for the checkbox row */
+.input-group label {
+    display: inline-block;
+    margin-right: 10px; /* Space between label and checkbox */
+}
+
+/* .input-group input[type="checkbox"] {
+} */
+
+/* Clear floats */
+.input-group:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.error-message {
+    color: red;
+}
+
+/* Responsive adjustment */
+@media (max-width: 768px) {
+    .controls-row {
+        flex-direction: column;
+    }
+    .input-group {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+}

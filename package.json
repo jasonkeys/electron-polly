@@ -1,0 +1,40 @@
+{
+  "name": "electron-polly",
+  "version": "1.0.0",
+  "description": "Text-to-Audio generator using AWS Polly and Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.jasondkeys.electron-polly",
+    "productName": "ElectronPolly",
+    "mac": {
+      "target": "dmg",
+      "icon": "icons/logo.icns"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icons/logo.ico"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "author": "Jason Keys",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^29.1.5",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1585.0",
+    "csv-parser": "^3.0.0",
+    "electron-store": "^8.2.0"
+  }
+}

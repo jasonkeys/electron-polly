@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Electron Polly</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Create Audio Files from Text</h1>
+        <div class="input-group">
+            <label for="txtFileInput">1. Select TXT File</label>
+            <input type="file" id="txtFileInput" accept=".txt" />
+        </div>
+        <div class="input-group">
+            <label for="directoryPicker">2. Select an Output Directory</label><br />
+            <span id="selectedDirPath" class="text-small"></span>
+            <button type="button" id="directoryPicker" class="file-input">Select Output Directory</button>
+        </div>
+        <div class="input-group">
+            <label for="outputPrefix">3. Enter output file prefix (optional)</label>
+            <input type="text" id="outputPrefix" placeholder="Enter file prefix" />
+        </div>
+
+        <button class="collapsible">Options</button>
+        <div class="content">
+            <div class="controls-row">
+                <div class="input-group">
+                    <label for="voiceSelect">Select Voice</label>
+                    <select id="voiceSelect">
+                        <optgroup label="English - US">
+                            <option value="Ivy">Ivy</option>
+                            <option value="Joanna" selected>Joanna</option>
+                            <option value="Kendra">Kendra</option>
+                            <option value="Kimberly">Kimberly</option>
+                            <option value="Salli">Salli</option>
+                            <option value="Joey">Joey</option>
+                            <option value="Justin">Justin</option>
+                            <option value="Matthew">Matthew</option>
+                        </optgroup>
+                        <optgroup label="English - UK">
+                            <option value="Amy">Amy</option>
+                            <option value="Emma">Emma</option>
+                            <option value="Brian">Brian</option>
+                        </optgroup>
+                        <optgroup label="English - Indian">
+                            <option value="Aditi">Aditi</option>
+                            <option value="Raveena">Raveena</option>
+                        </optgroup>
+                        <optgroup label="English - Australian">
+                            <option value="Nicole">Nicole</option>
+                            <option value="Russell">Russell</option>
+                        </optgroup>
+                        <optgroup label="English - Welsh">
+                            <option value="Geraint">Geraint</option>
+                        </optgroup>
+                        <optgroup label="English - New Zealand">
+                            <option value="Aria">Aria</option>
+                        </optgroup>
+                    </select>            
+                </div>
+                <div class="input-group">
+                    <label for="speechRate">Speech Rate</label>
+                    <select id="speechRate">
+                        <option value="40%">40%</option>
+                        <option value="60%">60%</option>
+                        <option value="80%">80%</option>
+                        <option value="100%" selected>100%</option>
+                        <option value="120%">120%</option>
+                        <option value="140%">140%</option>
+                        <option value="160%">160%</option>
+                        <option value="180%">180%</option>
+                        <option value="200%">200%</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="speechPitch">Speech Pitch</label>
+                    <select id="speechPitch">
+                        <option value="medium">Medium</option>
+                        <option value="low">Low</option>
+                        <option value="high">High</option>
+                        <!-- Add more options as needed -->
+                    </select>
+                </div>
+            </div>
+            <div class="input-group">
+                <button type="button" id="updateAwsCredentials" class="update-creds-button">Update AWS Credentials</button>
+            </div>
+            <div class="input-group controls-row">
+                <label for="timestampCheckbox">Append timestamp to filenames</label>
+                <input type="checkbox" id="timestampCheckbox" checked>
+            </div>
+        </div>
+        <div class="input-group">
+            <button id="btnStartProcess">Start Processing</button>
+            <progress id="progressBar" value="0" max="100"></progress>
+            <p id="progressMessage"></p>
+            <p id="processingError" class="error-message"></p>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay" style="display:none;">
+        <div id="awsCredentialsModal" class="modal-content">
+            <div class="modal-header">
+                <h2>AWS Credentials</h2>
+            </div>
+            <input type="text" id="awsAccessKeyId" placeholder="Access Key ID">
+            <input type="password" id="awsSecretAccessKey" placeholder="Secret Access Key">
+            <input type="text" id="awsRegion" placeholder="Region">
+            <div class="modal-footer">
+                <button id="saveAwsCredentials">Save Credentials</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('directoryPicker').addEventListener('click', async function(event) {
+            const directoryPath = await window.electronAPI.selectOutputDirectory();
+            document.getElementById('selectedDirPath').textContent = `Selected Directory: ${directoryPath}`;
+        });
+    </script>
+
+    <script src="renderer.js"></script>
+
+    <script>
+        // Collapsible Section Script
+        var coll = document.querySelector(".collapsible");
+        var content = document.querySelector(".content");
+
+        coll.addEventListener("click", function() {
+            this.classList.toggle("active");
+            if (content.style.maxHeight){
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            } 
+        });
+    </script>
+  
+</body>
+</html>
