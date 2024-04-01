@@ -14,5 +14,6 @@ contextBridge.exposeInMainWorld('electronAPI', {
     updateCredentials: (credentials) => ipcRenderer.send('credentials:update', credentials),
     setTimestampSetting: (value) => store.set('appendTimestamp', value),
     getTimestampSetting: () => store.get('appendTimestamp', true),
-    onError: (callback) => ipcRenderer.on('process:error', callback)
+    onError: (callback) => ipcRenderer.on('process:error', callback),
+    logMessage: (message) => ipcRenderer.send('log-message', message)
 });

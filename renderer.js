@@ -1,6 +1,7 @@
 // renderer.js
-
 document.addEventListener('DOMContentLoaded', () => {
+    window.electronAPI.logMessage('DOM content loaded');
+
     if (!window.electronAPI.hasCredentials()) {
         document.getElementById('modalOverlay').style.display = 'flex';
     }
@@ -12,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    document.getElementById('awsCredentialsModal').addEventListener('click', function(event) {
-        event.stopPropagation();
-    });
+    // document.getElementById('awsCredentialsModal').addEventListener('click', function(event) {
+    //     event.stopPropagation();
+    // });
     
     document.getElementById('saveAwsCredentials').addEventListener('click', () => {
         const credentials = {
@@ -23,14 +24,15 @@ document.addEventListener('DOMContentLoaded', () => {
           region: document.getElementById('awsRegion').value
         };
         window.electronAPI.saveCredentials(credentials);
+        window.electronAPI.logMessage('renderer - AWS credentials saved');
         document.getElementById('modalOverlay').style.display = 'none';
         window.location.reload();
     });
 
-
     const updateCredentialsBtn = document.getElementById('updateAwsCredentials');
     updateCredentialsBtn.addEventListener('click', () => {
         document.getElementById('modalOverlay').style.display = 'flex';
+        window.electronAPI.logMessage('updateAwsCredentials button clicked');
     });
 
     const timestampCheckbox = document.getElementById('timestampCheckbox');
@@ -56,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const reader = new FileReader();
         reader.onload = (e) => {
             const lines = e.target.result.split(/\r?\n/);
-            console.log(`Total lines: ${lines.length}`);
+            window.electronAPI.logMessage(`Total lines: ${lines.length}`);
             window.electronAPI.startProcessing({
                 lines: lines, 
                 outputDirectory: outputDirectory, 
@@ -67,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 appendTimestamp: appendTimestamp 
             });
         };
-        reader.onerror = (err) => console.error("Error reading file:", err);
+        reader.onerror = (err) => window.electronAPI.logMessage(`Error reading file: ${JSON.stringify(err)}`);
         reader.readAsText(file);
     });
 
@@ -83,6 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.electronAPI.onError((event, errorMessage) => {
         //document.getElementById('processingError').textContent = errorMessage;
+        window.electronAPI.logMessage(`electorAPI - ERROR - event: ${JSON.stringify(event)}, errorMessage: ${errorMessage}`);
         alert(`An error occurred: ${errorMessage}`);
     });
 });

@@ -38,11 +38,11 @@ To start the app in development mode, run:
 ```
 npm start
 ```
-### Debugging
+## Debugging
 
 Open the project in Visual Studio Code, and use the provided `launch.json` configuration to start debugging.
 
-## `launch.json` for Visual Studio Code
+### `launch.json` for Visual Studio Code
 
 In Visual Studio Code, go to the Run and Debug view, and create a launch.json file by clicking on "create a launch.json file". Here's a sample launch.json that includes configurations for the main and renderer processes:
 
@@ -83,6 +83,14 @@ In Visual Studio Code, go to the Run and Debug view, and create a launch.json fi
 ```
 
 This configuration allows you to attach the debugger to the Electron main and renderer processes. Make sure you have the Debugger for Chrome extension installed in VS Code if you plan to debug the renderer process.
+
+## Building
+
+You can run a build targeted at specific platforms using this command:
+```
+npm run dist -- -m -w
+```
+In this example, we are building a package for Mac and Windows. Linux is also specified in the package.json build definitiion.
 
 ## Contributing
 

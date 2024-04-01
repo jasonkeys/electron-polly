@@ -4,10 +4,15 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const Store = require('electron-store');
 const store = new Store();
+const log = require('./logger');
 
 // Initialize AWS Polly (adjust according to your configuration)
 AWS.config.update({
   region: 'us-west-2'
+});
+
+process.on('uncaughtException', (error) => {
+  log('Uncaught Exception:', error);
 });
 
 function createWindow() {
@@ -39,9 +44,9 @@ function initializeAwsSdk() {
     } else {
       throw new Error('AWS credentials are not set.');
     }
+    log(`initializeAwsSdk complete`);
   } catch (error) {
-    console.error(error);
-    mainWindow.webContents.send('error', error.message);
+    log(error);
   }
 }
 
@@ -73,7 +78,7 @@ ipcMain.handle('dialog:openTXT', async () => {
 
 // Handle Output Directory selection
 ipcMain.handle('dialog:openDirectory', async () => {
-    console.log('dialog:openDirectory');
+    log('dialog:openDirectory');
   const { filePaths } = await dialog.showOpenDialog({
     properties: ['openDirectory']
   });
@@ -85,9 +90,13 @@ ipcMain.on('credentials:update', (event, credentials) => {
   initializeAwsSdk(); // Re-initialize AWS SDK with new credentials
 });
 
+ipcMain.on('log-message', (event, message) => {
+  log(message);
+});
+
 ipcMain.on('process:start', (event, args) => {
   try {
-    console.log("Processing started with args:", args);
+    log("Processing started with args:", args);
     const polly = new AWS.Polly({
       apiVersion: '2016-06-10'
     });
@@ -103,14 +112,14 @@ ipcMain.on('process:start', (event, args) => {
 
             polly.synthesizeSpeech(params, (err, data) => {
                 if (err) {
-                    console.error('Error with Polly:', err);
+                    log('Error with Polly:', err);
                     reject(err);
                 } else {
                     const timestamp = args.appendTimestamp ? `_${Math.floor(Date.now() / 1000)}` : '';
                     const prefix = `${args.outputPrefix}${row}${timestamp}.mp3`;
                     const filePath = path.join(args.outputDirectory, prefix);
                     fs.writeFileSync(filePath, data.AudioStream);
-                    console.log(`File saved: ${filePath}`);
+                    log(`File saved: ${filePath}`);
                     resolve();
                 }
             });
@@ -122,14 +131,14 @@ ipcMain.on('process:start', (event, args) => {
     });
 
     Promise.all(promises).then(() => {
-        console.log('All rows processed.');
+        log('All rows processed.');
         event.sender.send('process:complete', 'All processing complete.');
     }).catch(error => {
-        console.error('Processing error:', error);
+        log('Processing error:', error);
         event.sender.send('process:error', error.message);
     }); 
   } catch (error) {
-    console.error('Processing error:', error);
+    log('Processing error:', error);
     event.sender.send('process:error', error.message);
   }
 });
